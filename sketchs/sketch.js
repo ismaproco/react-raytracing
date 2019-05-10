@@ -1,5 +1,6 @@
 import { Wall } from './wall';
 import { Ray } from './ray';
+import {Actor} from './actor'
 
 export default function sketch(p){
     let canvas;
@@ -32,14 +33,10 @@ export default function sketch(p){
       p.background('black');
       const wall = new Wall(350, 230, 350 , 530);
       wall.draw(p);
-      
-      const ray = new Ray(p, 100, 350, p.mouseX , p.mouseY);
-      const result = ray.cast(wall);
-      if(result){
-        ray.draw(p, 255,255,0);
-      } else {
-        ray.draw(p, 0,255,0);
-      }
+      const angle = 360;
+      //const ray = new Ray(p, 100, 350, 359);
+      const actor = new Actor(p, 100, 350);
+      actor.draw(wall);
     }
 
     p.myCustomRedrawAccordingToNewPropsHandler = redrawProps;

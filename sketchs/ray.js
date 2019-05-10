@@ -1,14 +1,16 @@
 export class Ray {
-  constructor(p, x1, y1, x2, y2) {
+  constructor(p, x1, y1, angle) {
     this.position = p.createVector(x1, y1);
-    this.direction = p.createVector(x2, y2);
+    const angleRad = angle*Math.PI/180;
+    this.direction = p.createVector(x1 + Math.cos(angleRad)*100, y1 + Math.sin(angleRad)*100);
+    this.p = p;
   }
 
-  draw(p, r = 255, g = 255, b = 255) {
-    p.stroke(r, g, b);
-    p.push();
-    p.line(this.position.x, this.position.y, this.direction.x, this.direction.y);
-    p.pop();
+  draw(r = 255, g = 255, b = 255, ix, iy) {
+    this.p.stroke(r, g, b);
+    this.p.push();
+    this.p.line(this.position.x, this.position.y, ix || this.direction.x, iy || this.direction.y);
+    this.p.pop();
   }
 
   cast(wall) {
@@ -34,7 +36,9 @@ export class Ray {
     const u = -(unum/tden);
 
     if ((t >= 0 && t <= 1) && u > 0 ) {
-      return true;
+      const px = x1+t*(x2-x1);
+      const py = y1 + t*(y2-y1)
+      return this.p.createVector(px, py);
     }
     return;
   }
